@@ -12,9 +12,20 @@ import {
 } from "./controllers/controllers";
 import { headlessEngine } from "./Engine";
 import Pager from "./components/Pager";
+
+declare global {
+  function coveoua(action?: string, fieldName?: any, fieldValue?: any): any;
+}
+
+const logViewEvent = () => {
+  coveoua("set", "page", "/");
+  coveoua("send", "pageview");
+};
+
 function App() {
   useEffect(() => {
     headlessEngine.executeFirstSearch();
+    logViewEvent();
   }, []);
 
   return (
